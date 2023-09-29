@@ -21,9 +21,9 @@ class AppData {
   Map<String, dynamic> toJson() => _$AppDataToJson(this);
 
   bool isEmpty() {
-    return (workoutList.isEmpty &&
-        exerciseList.isEmpty &&
-        warmUpAfterList.isEmpty &&
+    return (workoutList.isEmpty ||
+        exerciseList.isEmpty ||
+        warmUpAfterList.isEmpty ||
         warmUpBeforeList.isEmpty);
   }
 }

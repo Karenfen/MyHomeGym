@@ -1,10 +1,15 @@
+import 'dart:async';
 import 'dart:convert';
+// import 'dart:js_interop';
+// import 'dart:typed_data';
+import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/appdata.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
+import 'package:audioplayers/audioplayers.dart';
 
 import 'exercise.dart';
 import 'workout.dart';
@@ -21,7 +26,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
       child: MaterialApp(
-        title: 'Namer App',
+        title: 'My Home Gym',
         theme: ThemeData(
           useMaterial3: true,
           colorScheme:
@@ -34,206 +39,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
-  late Directory dataDir;
-  late File dataFile;
-  List<Exercise> exerciseList = [
-    // Exercise(
-    //   'Отжимания алмазые',
-    //   12,
-    // ),
-    // Exercise(
-    //   'Отжимания горкой',
-    //   12,
-    // ),
-    // Exercise(
-    //   'Подтягивания прямым хватом',
-    //   12,
-    // ),
-    // Exercise(
-    //   'Подтягивания обратным хватом',
-    //   12,
-    // ),
-    // Exercise(
-    //   'Болгарскиу сплит-приседания',
-    //   20,
-    // ),
-    // Exercise(
-    //   'Скандинавские скручивания',
-    //   20,
-    // ),
-    // Exercise(
-    //   'Скручивания на пресс',
-    //   25,
-    // ),
-    // Exercise(
-    //   'Упражнение "супермен"',
-    //   25,
-    // ),
-    // Exercise(
-    //   'Зашагивание на возвышение',
-    //   20,
-    // ),
-    // Exercise(
-    //   'Разтяжка "кобра"',
-    //   20,
-    // ),
-    // Exercise(
-    //   'Грудь',
-    //   20,
-    // ),
-    // Exercise(
-    //   'Скручивания в пояснице лёжа на полу (влево)',
-    //   20,
-    // ),
-    // Exercise(
-    //   'Скручивания в пояснице лёжа на полу (вправо)',
-    //   20,
-    // ),
-    // Exercise(
-    //   'Поза ребёнка',
-    //   30,
-    // ),
-    // Exercise(
-    //   'Махи руками с шагами в стороны',
-    //   30,
-    // ),
-    // Exercise(
-    //   'Прыжки без скакалки',
-    //   30,
-    // ),
-    // Exercise(
-    //   'Наклоны вперёд со скручиванием',
-    //   30,
-    // ),
-    // Exercise(
-    //   'Бег, колени вверх',
-    //   30,
-    // ),
-    // Exercise(
-    //   'Приводящая мышца - стоя',
-    //   30,
-    // ),
-  ];
-  List<Workout> workoutList = <Workout>[
-    // Workout(
-    //   'Тренировка 1',
-    //   'На всё тело',
-    //   [
-    //     Exercise(
-    //       'Отжимания алмазые',
-    //       12,
-    //     ),
-    //     Exercise(
-    //       'Подтягивания прямым хватом',
-    //       12,
-    //     ),
-    //     Exercise(
-    //       'Болгарскиу сплит-приседания',
-    //       20,
-    //     ),
-    //     Exercise(
-    //       'Скандинавские скручивания',
-    //       20,
-    //     ),
-    //     Exercise(
-    //       'Скручивания на пресс',
-    //       25,
-    //     ),
-    //     Exercise(
-    //       'Упражнение "супермен"',
-    //       25,
-    //     ),
-    //   ],
-    // ),
-    // Workout(
-    //   'Тренировка 2',
-    //   'На всё тело',
-    //   [
-    //     Exercise(
-    //       'Отжимания горкой',
-    //       12,
-    //     ),
-    //     Exercise(
-    //       'Подтягивания обратным хватом',
-    //       12,
-    //     ),
-    //     Exercise(
-    //       'Зашагивание на возвышение',
-    //       20,
-    //     ),
-    //     Exercise(
-    //       'Сгибание ног на бицепс бедра, лёжа на спине',
-    //       20,
-    //     ),
-    //     Exercise(
-    //       'Подъём ног к турнику в висе',
-    //       25,
-    //     ),
-    //     Exercise(
-    //       'Упражнение "пловец"',
-    //       25,
-    //     ),
-    //   ],
-    // ),
-  ];
-  List<Workout> warmUpAfterList = <Workout>[
-    // Workout(
-    //   'Разтяжка',
-    //   'После тренировки',
-    //   [
-    //     Exercise(
-    //       'Разтяжка "кобра"',
-    //       20,
-    //     ),
-    //     Exercise(
-    //       'Грудь',
-    //       20,
-    //     ),
-    //     Exercise(
-    //       'Скручивания в пояснице лёжа на полу (влево)',
-    //       20,
-    //     ),
-    //     Exercise(
-    //       'Скручивания в пояснице лёжа на полу (вправо)',
-    //       20,
-    //     ),
-    //     Exercise(
-    //       'Поза ребёнка',
-    //       30,
-    //     ),
-    //   ],
-    // ),
-  ];
-  List<Workout> warmUpBeforeList = <Workout>[
-    // Workout(
-    //   'Разминка',
-    //   'Перед тренировкой',
-    //   [
-    //     Exercise(
-    //       'Махи руками с шагами в стороны',
-    //       30,
-    //     ),
-    //     Exercise(
-    //       'Прыжки без скакалки',
-    //       30,
-    //     ),
-    //     Exercise(
-    //       'Наклоны вперёд со скручиванием',
-    //       30,
-    //     ),
-    //     Exercise(
-    //       'Бег, колени вверх',
-    //       30,
-    //     ),
-    //     Exercise(
-    //       'Приводящая мышца - стоя',
-    //       30,
-    //     ),
-    //   ],
-    // ),
-  ];
-
+  //late Directory dataDir;
+  //late File dataFile; // = File('assets/data/data.txt');
   AppData data = AppData([], [], [], []);
+  String srcDir = 'files/sounds';
+  late String tempDirPath;
+  List<String> asetsName = ['/timer_start.mp3', '/timer_end.mp3'];
 
   MyAppState() {
     WidgetsBinding.instance.addObserver(this);
@@ -248,27 +59,60 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
 
   Future<void> loadState() async {
     if (data.isEmpty()) {
-      dataDir = await getApplicationDocumentsDirectory();
-      dataFile = File('${dataDir.path}/data.data');
-      if (dataFile.existsSync()) {
-        String jsonData = dataFile.readAsStringSync();
-        if (jsonData.isNotEmpty) {
-          Map<String, dynamic> dataMap = jsonDecode(jsonData);
-          data = AppData.fromJson(dataMap);
-          notifyListeners();
-        }
+      final jsonData = await rootBundle.loadString('files/data/data.txt');
+      if (jsonData.isNotEmpty) {
+        Map<String, dynamic> dataMap = jsonDecode(jsonData);
+        data = AppData.fromJson(dataMap);
+        notifyListeners();
       }
+      // dataFile = File('assets/data/data.txt');
+      // if (dataFile.existsSync()) {
+      //   String jsonData = dataFile.readAsStringSync();
+      //   if (jsonData.isNotEmpty) {
+      //     Map<String, dynamic> dataMap = jsonDecode(jsonData);
+      //     data = AppData.fromJson(dataMap);
+      //     notifyListeners();
+      //   }
+      // }
+    }
+
+    final tempDir = await getTemporaryDirectory();
+    tempDirPath = tempDir.path;
+
+    for (var fileName in asetsName) {
+      File file = File('$tempDirPath$fileName');
+      if (!file.existsSync()) {
+        await file.create(recursive: true);
+      }
+      final fileData = await rootBundle.load('$srcDir$fileName');
+      file.writeAsBytes(fileData.buffer.asUint8List());
     }
   }
 
   void saveState() {
-    data =
-        AppData(warmUpBeforeList, warmUpAfterList, workoutList, exerciseList);
-    String jsonData = jsonEncode(data);
+    if (!data.isEmpty()) {
+      String jsonData = jsonEncode(data);
 
-    if (jsonData.isNotEmpty) {
-      dataFile.writeAsString(jsonData);
+      if (jsonData.isNotEmpty) {
+        //dataFile.writeAsString(jsonData);
+      }
     }
+  }
+
+  void skipWorkout() {
+    if (data.workoutList.length > 1) {
+      var first = data.workoutList.removeAt(0);
+      data.workoutList.add(first);
+      notifyListeners();
+    }
+  }
+
+  void startWarmUp(Workout warmup) {
+    for (Exercise exercise in warmup.exerciseList) {}
+  }
+
+  void startWorkout(Workout wK) {
+    for (Exercise exercise in wK.exerciseList) {}
   }
 }
 
@@ -361,7 +205,12 @@ class GeneralPage extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               onPressed: () {
-                // начать тренировку
+                if (workouts.isNotEmpty) {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        WorkoutStartPage(workout: workouts.first),
+                  ));
+                }
               },
               icon: Icon(Icons.play_arrow),
               label: Text('Начать'),
@@ -371,7 +220,7 @@ class GeneralPage extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                // пропустить тренировку
+                appState.skipWorkout();
               },
               icon: Icon(Icons.reply),
               label: Text('Пропустить'),
@@ -387,7 +236,6 @@ class WorkoutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    appState.loadState();
 
     return ListView(
       scrollDirection: Axis.vertical,
@@ -406,7 +254,6 @@ class ExercisePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    appState.loadState();
 
     return ListView(
       scrollDirection: Axis.vertical,
@@ -466,6 +313,7 @@ class WorkoutCard extends StatelessWidget {
     final textStyle = theme.textTheme.displaySmall!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
+    Text header = Text('Упражнения');
 
     return Card(
       color: theme.colorScheme.primary,
@@ -483,20 +331,30 @@ class WorkoutCard extends StatelessWidget {
               style: textStyle,
             ),
             DropdownButton(
-              icon: Icon(Icons.format_list_bulleted_rounded),
               items: [
+                DropdownMenuItem(
+                  value: header,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('Упражнения - '),
+                      Text('${workout.exerciseList.length}'),
+                    ],
+                  ),
+                ),
                 for (var item in workout.exerciseList)
                   DropdownMenuItem<Exercise>(
                     value: item,
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(Icons.accessibility_rounded),
-                        Text('${item.name} ${item.repetitions}'),
+                        Text('${item.name} '),
+                        Text('${item.repetitions}'),
                       ],
                     ),
                   )
               ],
-              value: workout.exerciseList.first,
+              value: header,
               onChanged: (item) {},
               //Text('${exerciseList.length} упражнения'),
             ),
@@ -526,7 +384,7 @@ class ExerciseCard extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            Icon(Icons.ac_unit_rounded),
+            Icon(Icons.accessibility_new_rounded),
             Text(
               exercise.name,
               style: textStyle,
@@ -536,5 +394,179 @@ class ExerciseCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class WorkoutStartPage extends StatefulWidget {
+  const WorkoutStartPage({super.key, required this.workout});
+
+  final Workout workout;
+
+  @override
+  State<WorkoutStartPage> createState() => _WorkoutStartPageState();
+}
+
+class _WorkoutStartPageState extends State<WorkoutStartPage> {
+  late Timer timer;
+  int secondsPassed = 0;
+  Exercise currentExercise = Exercise('Приготовьтесь!', 0);
+  AudioPlayer notificationPlayer = AudioPlayer();
+  late MyAppState appState;
+  bool isInProcess = false;
+
+  @override
+  void dispose() {
+    notificationPlayer.stop();
+    notificationPlayer.dispose();
+    timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  Future<void> runExerciseFromTime(Exercise exercise) async {
+    // Звуковое уведомление и одновременно обратный отсчет до начала упражнения
+    //notificationPlayer.play('${appState.tempDirPath}/timer_start.mp3');
+    setState(() {
+      secondsPassed = 5;
+    });
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (secondsPassed > 0) secondsPassed--;
+      });
+    });
+    await Future.delayed(Duration(
+        seconds:
+            secondsPassed)); // Пример задержки в 5 секунд для обратного отсчета
+    timer.cancel();
+    setState(() {
+      secondsPassed = 0;
+    });
+    await Future.delayed(Duration(seconds: 1));
+// звук начала упражнения
+    setState(() {
+      secondsPassed = 5;
+      notificationPlayer.play('${appState.tempDirPath}/timer_start.mp3');
+    });
+
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (secondsPassed > 0) secondsPassed--;
+      });
+    });
+    await Future.delayed(Duration(
+        seconds:
+            secondsPassed)); // Пример задержки в 5 секунд для обратного отсчета
+    timer.cancel();
+    setState(() {
+      secondsPassed = 0;
+      notificationPlayer.play('${appState.tempDirPath}/timer_end.mp3');
+    });
+// звук завершения упражнения
+    await Future.delayed(Duration(seconds: 1));
+  }
+
+  Future<void> runExerciseFromTimes(Exercise ex) async {
+    // Звуковое уведомление о начале
+    //await notificationPlayer.play('sound_start.mp3'); // Замените 'sound_start.mp3' на путь к звуковому файлу
+    // Ожидание нажатия кнопки при завершении упражнения (здесь вы должны реализовать логику ожидания)
+    // Звуковое уведомление о завершении упражнения
+    //await notificationPlayer.play('sound_end.mp3'); // Замените 'sound_end.mp3' на путь к звуковому файлу
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textStyle = theme.textTheme.displaySmall!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+    appState = context.watch<MyAppState>();
+    Workout warmUpBefore = appState.data.warmUpBeforeList
+        .firstWhere((element) => true, orElse: () => Workout('', '', []));
+    Workout warmUpAfter = appState.data.warmUpAfterList
+        .firstWhere((element) => true, orElse: () => Workout('', '', []));
+    var exercises = List.from(warmUpBefore.exerciseList);
+    exercises.addAll(widget.workout.exerciseList);
+    exercises.addAll(warmUpAfter.exerciseList);
+
+    //AudioPlayer notificationPlayer = AudioPlayer();
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.workout.workoutName),
+        ),
+        body: Column(
+          children: [
+            WorkoutCard(workout: widget.workout),
+            Text('Следующее упражнение:'),
+            Card(
+              color: theme.colorScheme.primary,
+              shadowColor: theme.shadowColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                    '${currentExercise.name}: ${currentExercise.repetitions}',
+                    style: textStyle),
+              ),
+            ),
+            Expanded(
+              child: SizedBox(),
+            ),
+            Text('Оставшееся время:'),
+            Card(
+              color: theme.colorScheme.primary,
+              shadowColor: theme.shadowColor,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('$secondsPassed', style: textStyle),
+              ),
+            ),
+            Expanded(
+              child: SizedBox(),
+            ),
+            ElevatedButton.icon(
+              onPressed: () async {
+                if (isInProcess) {
+                  return;
+                }
+
+                isInProcess = true;
+
+                if (exercises.isNotEmpty) {
+                  for (var exercise in warmUpBefore.exerciseList) {
+                    if (!mounted) return;
+                    setState(() {
+                      currentExercise = exercise;
+                    });
+                    await runExerciseFromTime(exercise);
+                  }
+                  for (var exercise in widget.workout.exerciseList) {
+                    if (!mounted) return;
+                    setState(() {
+                      currentExercise = exercise;
+                    });
+                    await runExerciseFromTimes(exercise);
+                  }
+                  for (var exercise in warmUpAfter.exerciseList) {
+                    if (!mounted) return;
+                    setState(() {
+                      currentExercise = exercise;
+                    });
+                    await runExerciseFromTime(exercise);
+                  }
+                }
+                if (!mounted) return;
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.play_arrow),
+              label: Text('Начать'),
+            ),
+          ],
+        ));
   }
 }
