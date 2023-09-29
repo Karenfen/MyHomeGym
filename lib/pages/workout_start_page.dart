@@ -112,73 +112,76 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
         appBar: AppBar(
           title: Text(widget.workout.workoutName),
         ),
-        body: Column(
-          children: [
-            WorkoutCard(workout: widget.workout),
-            Text('Следующее упражнение:'),
-            Card(
-              color: theme.colorScheme.primary,
-              shadowColor: theme.shadowColor,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                    '${currentExercise.name}: ${currentExercise.repetitions}',
-                    style: textStyle),
+        body: Container(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          child: Column(
+            children: [
+              Center(child: WorkoutCard(workout: widget.workout)),
+              Text('Следующее упражнение:'),
+              Card(
+                color: theme.colorScheme.primary,
+                shadowColor: theme.shadowColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      '${currentExercise.name}: ${currentExercise.repetitions}',
+                      style: textStyle),
+                ),
               ),
-            ),
-            Expanded(
-              child: SizedBox(),
-            ),
-            Text('Оставшееся время:'),
-            Card(
-              color: theme.colorScheme.primary,
-              shadowColor: theme.shadowColor,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('$secondsPassed', style: textStyle),
+              Expanded(
+                child: SizedBox(),
               ),
-            ),
-            Expanded(
-              child: SizedBox(),
-            ),
-            ElevatedButton.icon(
-              onPressed: () async {
-                if (isInProcess) {
-                  return;
-                }
+              Text('Оставшееся время:'),
+              Card(
+                color: theme.colorScheme.primary,
+                shadowColor: theme.shadowColor,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('$secondsPassed', style: textStyle),
+                ),
+              ),
+              Expanded(
+                child: SizedBox(),
+              ),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  if (isInProcess) {
+                    return;
+                  }
 
-                isInProcess = true;
+                  isInProcess = true;
 
-                if (exercises.isNotEmpty) {
-                  for (var exercise in warmUpBefore.exerciseList) {
-                    if (!mounted) return;
-                    setState(() {
-                      currentExercise = exercise;
-                    });
-                    await runExerciseFromTime(exercise);
+                  if (exercises.isNotEmpty) {
+                    for (var exercise in warmUpBefore.exerciseList) {
+                      if (!mounted) return;
+                      setState(() {
+                        currentExercise = exercise;
+                      });
+                      await runExerciseFromTime(exercise);
+                    }
+                    for (var exercise in widget.workout.exerciseList) {
+                      if (!mounted) return;
+                      setState(() {
+                        currentExercise = exercise;
+                      });
+                      await runExerciseFromTimes(exercise);
+                    }
+                    for (var exercise in warmUpAfter.exerciseList) {
+                      if (!mounted) return;
+                      setState(() {
+                        currentExercise = exercise;
+                      });
+                      await runExerciseFromTime(exercise);
+                    }
                   }
-                  for (var exercise in widget.workout.exerciseList) {
-                    if (!mounted) return;
-                    setState(() {
-                      currentExercise = exercise;
-                    });
-                    await runExerciseFromTimes(exercise);
-                  }
-                  for (var exercise in warmUpAfter.exerciseList) {
-                    if (!mounted) return;
-                    setState(() {
-                      currentExercise = exercise;
-                    });
-                    await runExerciseFromTime(exercise);
-                  }
-                }
-                if (!mounted) return;
-                Navigator.pop(context);
-              },
-              icon: Icon(Icons.play_arrow),
-              label: Text('Начать'),
-            ),
-          ],
+                  if (!mounted) return;
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.play_arrow),
+                label: Text('Начать'),
+              ),
+            ],
+          ),
         ));
   }
 }

@@ -30,7 +30,6 @@ class ExerciseCard extends StatelessWidget {
                 maxLines: 2,
               ),
             ),
-            Text('${exercise.repetitions}'),
           ],
         ),
       ),
