@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'exercise.dart';
-import 'workout.dart';
+import '../classes/exercise.dart';
+import '../classes/workout.dart';
 
 class WorkoutCard extends StatelessWidget {
   const WorkoutCard({super.key, required this.workout});

@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'workout.dart';
 import 'exercise.dart';
 
-part 'appdata.g.dart';
+part 'app_data.g.dart';
 
 @JsonSerializable()
 class AppData {
