@@ -385,9 +385,13 @@ class ExerciseCard extends StatelessWidget {
         child: Row(
           children: [
             Icon(Icons.accessibility_new_rounded),
-            Text(
-              exercise.name,
-              style: textStyle,
+            Expanded(
+              child: Text(
+                exercise.name,
+                style: textStyle,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+              ),
             ),
             Text('${exercise.repetitions}'),
           ],
@@ -407,7 +411,7 @@ class WorkoutStartPage extends StatefulWidget {
 }
 
 class _WorkoutStartPageState extends State<WorkoutStartPage> {
-  late Timer timer;
+  Timer? timer;
   int secondsPassed = 0;
   Exercise currentExercise = Exercise('Приготовьтесь!', 0);
   AudioPlayer notificationPlayer = AudioPlayer();
@@ -418,7 +422,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
   void dispose() {
     notificationPlayer.stop();
     notificationPlayer.dispose();
-    timer.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
@@ -443,7 +447,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     await Future.delayed(Duration(
         seconds:
             secondsPassed)); // Пример задержки в 5 секунд для обратного отсчета
-    timer.cancel();
+    timer?.cancel();
     setState(() {
       secondsPassed = 0;
     });
@@ -462,7 +466,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     await Future.delayed(Duration(
         seconds:
             secondsPassed)); // Пример задержки в 5 секунд для обратного отсчета
-    timer.cancel();
+    timer?.cancel();
     setState(() {
       secondsPassed = 0;
       notificationPlayer.play('${appState.tempDirPath}/timer_end.mp3');
