@@ -10,6 +10,7 @@ class WorkoutCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final theme = Theme.of(context);
     final headerStyle = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
@@ -49,12 +50,24 @@ class WorkoutCard extends StatelessWidget {
                 for (var item in workout.exerciseList)
                   DropdownMenuItem<Exercise>(
                     value: item,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('${item.name} '),
-                        Text('${item.repetitions}'),
-                      ],
+                    child: Center(
+                      child: Container(
+                        constraints:
+                            BoxConstraints(maxWidth: screenWidth * 0.8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                '${item.name} ',
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
+                            ),
+                            Text('${item.repetitions}'),
+                          ],
+                        ),
+                      ),
                     ),
                   )
               ],
