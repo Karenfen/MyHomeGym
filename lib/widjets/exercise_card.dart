@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/exercise_info_page.dart';
 
 import '../classes/exercise.dart';
 
@@ -21,7 +22,6 @@ class ExerciseCard extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
-            Icon(Icons.accessibility_new_rounded),
             Expanded(
               child: Text(
                 exercise.name,
@@ -29,6 +29,15 @@ class ExerciseCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
+            ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ExerciseInfoPage(exercise: exercise),
+                ));
+              },
+              icon: Icon(Icons.info_outline_rounded),
+              label: Text('info'),
             ),
           ],
         ),

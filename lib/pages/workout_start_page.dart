@@ -21,7 +21,7 @@ class WorkoutStartPage extends StatefulWidget {
 class _WorkoutStartPageState extends State<WorkoutStartPage> {
   Timer? timer;
   int secondsPassed = 0;
-  Exercise currentExercise = Exercise('Приготовьтесь!', 0);
+  Exercise currentExercise = Exercise('Приготовьтесь!', 0, '', '');
   AudioPlayer notificationPlayer = AudioPlayer();
   late MyAppState appState;
   bool isInProcess = false;
@@ -124,7 +124,10 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      '${currentExercise.name}: ${currentExercise.repetitions}',
+                      currentExercise.repetitions == 0
+                          ? currentExercise
+                              .name // Показываем только имя, если repetitions равно 0
+                          : '${currentExercise.name}: ${currentExercise.repetitions}',
                       style: textStyle),
                 ),
               ),

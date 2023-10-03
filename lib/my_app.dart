@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
         title: 'My Home Gym',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 0, 97, 81)),
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Color.fromARGB(255, 255, 255, 255)),
         ),
         home: MyHomePage(),
       ),

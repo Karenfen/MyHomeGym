@@ -17,6 +17,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   gtk: ^2.1.0
   json_annotation: ^4.8.1
+  youtube_player_flutter: ^8.1.2 
 
 
 dev_dependencies:
@@ -32,3 +33,4 @@ flutter:
   assets:
     - files/data/
     - files/sounds/
+    - files/images/
