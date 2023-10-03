@@ -63,7 +63,8 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
 // звук начала упражнения
     setState(() {
       secondsPassed = 5;
-      notificationPlayer.play('${appState.tempDirPath}/timer_start.mp3');
+      notificationPlayer
+          .play(UrlSource('${appState.tempDirPath}/timer_start.mp3'));
     });
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -77,7 +78,8 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     timer?.cancel();
     setState(() {
       secondsPassed = 0;
-      notificationPlayer.play('${appState.tempDirPath}/timer_end.mp3');
+      notificationPlayer
+          .play(UrlSource('${appState.tempDirPath}/timer_end.mp3'));
     });
 // звук завершения упражнения
     await Future.delayed(Duration(seconds: 1));

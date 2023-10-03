@@ -13,11 +13,13 @@ class ExerciseInfoPage extends StatelessWidget {
     final headerStyle = theme.textTheme.displayMedium!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
+
     YoutubePlayerController controller = YoutubePlayerController(
-      initialVideoId: exercise.videoUrl,
+      initialVideoId: exercise.videoId,
       flags: YoutubePlayerFlags(
         autoPlay: false,
         mute: true,
+        loop: true,
       ),
     );
 
@@ -40,22 +42,27 @@ class ExerciseInfoPage extends StatelessWidget {
                 ),
               ),
             ),
-            // image
-            Image.asset(
-              exercise.imageUrl,
-              fit: BoxFit.contain,
-              alignment: Alignment.center,
-            ),
             // описание
             Expanded(
               child: Text('как правиьно делать упражнение'),
             ),
-            // video
-            YoutubePlayer(
-              controller: controller,
-              showVideoProgressIndicator: true,
-              progressIndicatorColor: Colors.blueAccent,
-            )
+            Text('Иллюстрация:'),
+            // image
+            if (exercise.imageUrl.isNotEmpty)
+              Image.asset(
+                exercise.imageUrl,
+                fit: BoxFit.contain,
+                alignment: Alignment.center,
+              ),
+            Text('Видео-пример на YouTube:'),
+            if (exercise.videoId.isNotEmpty)
+              // video
+              YoutubePlayer(
+                controller: controller,
+                showVideoProgressIndicator: true,
+                progressIndicatorColor:
+                    Theme.of(context).colorScheme.primaryContainer,
+              )
           ]),
         ));
   }
