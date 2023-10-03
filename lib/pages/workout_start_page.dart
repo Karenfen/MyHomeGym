@@ -28,7 +28,6 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
 
   @override
   void dispose() {
-    notificationPlayer.stop();
     notificationPlayer.dispose();
     timer?.cancel();
     super.dispose();
