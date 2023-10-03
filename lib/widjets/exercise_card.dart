@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/exercise_info_page.dart';
-
 import '../classes/exercise.dart';
 
 class ExerciseCard extends StatelessWidget {
@@ -32,9 +30,7 @@ class ExerciseCard extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ExerciseInfoPage(exercise: exercise),
-                ));
+                exercise.showInfo(context);
               },
               icon: Icon(Icons.info_outline_rounded),
               label: Text('info'),

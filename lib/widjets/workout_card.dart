@@ -72,7 +72,11 @@ class WorkoutCard extends StatelessWidget {
                   )
               ],
               value: header,
-              onChanged: (item) {},
+              onChanged: (item) {
+                if (item is Exercise) {
+                  item.showInfo(context);
+                }
+              },
               //Text('${exerciseList.length} упражнения'),
             ),
           ],
