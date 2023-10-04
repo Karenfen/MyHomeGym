@@ -11,6 +11,7 @@ Exercise _$ExerciseFromJson(Map<String, dynamic> json) => Exercise(
       json['repetitions'] as int,
       json['videoId'] as String,
       json['imageUrl'] as String,
+      json['info'] as String,
     );
 
 Map<String, dynamic> _$ExerciseToJson(Exercise instance) => <String, dynamic>{
@@ -18,4 +19,5 @@ Map<String, dynamic> _$ExerciseToJson(Exercise instance) => <String, dynamic>{
       'repetitions': instance.repetitions,
       'videoId': instance.videoId,
       'imageUrl': instance.imageUrl,
+      'info': instance.info,
     };

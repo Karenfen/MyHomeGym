@@ -21,7 +21,7 @@ class WorkoutStartPage extends StatefulWidget {
 class _WorkoutStartPageState extends State<WorkoutStartPage> {
   Timer? timer;
   int secondsPassed = 0;
-  Exercise currentExercise = Exercise('Приготовьтесь!', 0, '', '');
+  Exercise currentExercise = Exercise('Приготовьтесь!', 0, '', '', '');
   AudioPlayer notificationPlayer = AudioPlayer();
   late MyAppState appState;
   bool isInProcess = false;
