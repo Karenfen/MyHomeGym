@@ -37,7 +37,7 @@ class _ExerciseInfoPageState extends State<ExerciseInfoPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final headerStyle = theme.textTheme.displayMedium!.copyWith(
+    final headerStyle = theme.textTheme.headlineLarge!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
 

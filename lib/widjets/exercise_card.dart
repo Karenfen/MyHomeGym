@@ -9,7 +9,7 @@ class ExerciseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final textStyle = theme.textTheme.displaySmall!.copyWith(
+    final textStyle = theme.textTheme.titleLarge!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
 
@@ -25,7 +25,7 @@ class ExerciseCard extends StatelessWidget {
                 exercise.name,
                 style: textStyle,
                 overflow: TextOverflow.ellipsis,
-                maxLines: 2,
+                maxLines: 3,
               ),
             ),
             ElevatedButton.icon(

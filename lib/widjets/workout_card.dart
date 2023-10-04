@@ -12,10 +12,10 @@ class WorkoutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final theme = Theme.of(context);
-    final headerStyle = theme.textTheme.displayMedium!.copyWith(
+    final headerStyle = theme.textTheme.headlineLarge!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
-    final textStyle = theme.textTheme.displaySmall!.copyWith(
+    final textStyle = theme.textTheme.headlineSmall!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
     Text header = Text('Упражнения');
