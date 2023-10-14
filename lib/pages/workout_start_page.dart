@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/widjets/exercise_card.dart';
 import 'package:provider/provider.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -21,15 +22,76 @@ class WorkoutStartPage extends StatefulWidget {
 class _WorkoutStartPageState extends State<WorkoutStartPage> {
   Timer? timer;
   int secondsPassed = 0;
-  Exercise currentExercise = Exercise('Приготовьтесь!', 0, '', '', '');
-  AudioPlayer notificationPlayer = AudioPlayer();
+  late Exercise currentExercise;
+  AudioPlayer startNotificationPlayer = AudioPlayer();
+  AudioPlayer endNotificationPlayer = AudioPlayer();
+  AudioPlayer finishNotificationPlayer = AudioPlayer();
   late MyAppState appState;
-  bool isInProcess = false;
+  bool isPause = false;
+  bool isRun = false;
+  bool isCompleted = false;
+  List<Exercise> exerciseList = [];
+  int currentExerciseIndex = 0;
+  Icon iconButtonStart = Icon(Icons.play_arrow_rounded);
+  Text labelButtonStart = Text('Начать');
+  late String audioName;
+
+  Future<void> timerStart() async {
+    print('timer start');
+    timer?.cancel();
+    Completer<void> timerCompleter = Completer<void>();
+
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (!isPause) {
+        setState(() {
+          if (secondsPassed > 0) secondsPassed--;
+        });
+        if (secondsPassed <= 0) {
+          timer.cancel();
+          if (!timerCompleter.isCompleted) timerCompleter.complete();
+        }
+      }
+    });
+
+    await timerCompleter.future;
+
+    return Future<void>.value();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    appState = context.watch<MyAppState>();
+
+    startNotificationPlayer.setSourceAsset('sounds/start.wav');
+    startNotificationPlayer.setReleaseMode(ReleaseMode.stop);
+    endNotificationPlayer.setSourceAsset('sounds/end.wav');
+    endNotificationPlayer.setReleaseMode(ReleaseMode.stop);
+    finishNotificationPlayer.setSourceAsset('sounds/finish.wav');
+    finishNotificationPlayer.setReleaseMode(ReleaseMode.stop);
+
+    if (exerciseList.isEmpty) {
+      Workout warmUpBefore = appState.data.warmUpBeforeList
+          .firstWhere((element) => true, orElse: () => Workout('', '', []));
+      Workout warmUpAfter = appState.data.warmUpAfterList
+          .firstWhere((element) => true, orElse: () => Workout('', '', []));
+
+      exerciseList = List.from(warmUpBefore.exerciseList);
+      exerciseList.addAll(widget.workout.exerciseList);
+      exerciseList.addAll(warmUpAfter.exerciseList);
+
+      currentExercise = exerciseList.first;
+    }
+  }
 
   @override
   void dispose() {
-    notificationPlayer.dispose();
+    startNotificationPlayer.dispose();
+    endNotificationPlayer.dispose();
+    finishNotificationPlayer.dispose();
     timer?.cancel();
+
     super.dispose();
   }
 
@@ -40,56 +102,60 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     }
   }
 
-  Future<void> runExerciseFromTime(Exercise exercise) async {
-    // Звуковое уведомление и одновременно обратный отсчет до начала упражнения
-    //notificationPlayer.play('${appState.tempDirPath}/timer_start.mp3');
+  Future<void> runExercise(Exercise exercise) async {
+    //playSound('file_name.wav');  // Звуковое уведомление и одновременно обратный отсчет до начала упражнения
+
     setState(() {
       secondsPassed = 5;
-    });
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (secondsPassed > 0) secondsPassed--;
-      });
-    });
-    await Future.delayed(Duration(
-        seconds:
-            secondsPassed)); // Пример задержки в 5 секунд для обратного отсчета
-    timer?.cancel();
-    setState(() {
-      secondsPassed = 0;
-    });
-    await Future.delayed(Duration(seconds: 1));
-// звук начала упражнения
-    setState(() {
-      secondsPassed = 5;
-      notificationPlayer
-          .play(UrlSource('${appState.tempDirPath}/timer_start.mp3'));
     });
 
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (secondsPassed > 0) secondsPassed--;
-      });
-    });
-    await Future.delayed(Duration(
-        seconds:
-            secondsPassed)); // Пример задержки в 5 секунд для обратного отсчета
-    timer?.cancel();
-    setState(() {
-      secondsPassed = 0;
-      notificationPlayer
-          .play(UrlSource('${appState.tempDirPath}/timer_end.mp3'));
-    });
-// звук завершения упражнения
+    await timerStart();
+
     await Future.delayed(Duration(seconds: 1));
+
+    startNotificationPlayer.resume();
+
+    setState(() {
+      secondsPassed = exercise.repetitions;
+    });
+
+    await timerStart();
+
+    endNotificationPlayer.resume();
+
+    await Future.delayed(Duration(seconds: 1));
+
+    return Future<void>.value();
   }
 
-  Future<void> runExerciseFromTimes(Exercise ex) async {
-    // Звуковое уведомление о начале
-    //await notificationPlayer.play('sound_start.mp3'); // Замените 'sound_start.mp3' на путь к звуковому файлу
-    // Ожидание нажатия кнопки при завершении упражнения (здесь вы должны реализовать логику ожидания)
-    // Звуковое уведомление о завершении упражнения
-    //await notificationPlayer.play('sound_end.mp3'); // Замените 'sound_end.mp3' на путь к звуковому файлу
+  Future<void> run() async {
+    setState(() {
+      isRun = true;
+      iconButtonStart = Icon(Icons.pause_rounded);
+      labelButtonStart = Text('Пауза');
+    });
+
+    if (exerciseList.isNotEmpty) {
+      for (var exercise in exerciseList) {
+        if (!mounted) return;
+        setState(() {
+          currentExercise = exercise;
+        });
+
+        await runExercise(exercise);
+      }
+    }
+
+    setState(() {
+      isRun = false;
+      isCompleted = true;
+      iconButtonStart = Icon(Icons.exit_to_app_rounded);
+      labelButtonStart = Text('Выйти');
+    });
+
+    finishNotificationPlayer.resume();
+
+    return Future<void>.value();
   }
 
   @override
@@ -98,16 +164,6 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     final textStyle = theme.textTheme.displaySmall!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
-    appState = context.watch<MyAppState>();
-    Workout warmUpBefore = appState.data.warmUpBeforeList
-        .firstWhere((element) => true, orElse: () => Workout('', '', []));
-    Workout warmUpAfter = appState.data.warmUpAfterList
-        .firstWhere((element) => true, orElse: () => Workout('', '', []));
-    var exercises = List.from(warmUpBefore.exerciseList);
-    exercises.addAll(widget.workout.exerciseList);
-    exercises.addAll(warmUpAfter.exerciseList);
-
-    //AudioPlayer notificationPlayer = AudioPlayer();
 
     return Scaffold(
         appBar: AppBar(
@@ -119,19 +175,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
             children: [
               Center(child: WorkoutCard(workout: widget.workout)),
               Text('Следующее упражнение:'),
-              Card(
-                color: theme.colorScheme.primary,
-                shadowColor: theme.shadowColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      currentExercise.repetitions == 0
-                          ? currentExercise
-                              .name // Показываем только имя, если repetitions равно 0
-                          : '${currentExercise.name}: ${currentExercise.repetitions}',
-                      style: textStyle),
-                ),
-              ),
+              ExerciseCard(exercise: currentExercise),
               Expanded(
                 child: SizedBox(),
               ),
@@ -149,40 +193,24 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
               ),
               ElevatedButton.icon(
                 onPressed: () async {
-                  if (isInProcess) {
-                    return;
-                  }
-
-                  isInProcess = true;
-
-                  if (exercises.isNotEmpty) {
-                    for (var exercise in warmUpBefore.exerciseList) {
-                      if (!mounted) return;
-                      setState(() {
-                        currentExercise = exercise;
-                      });
-                      await runExerciseFromTime(exercise);
-                    }
-                    for (var exercise in widget.workout.exerciseList) {
-                      if (!mounted) return;
-                      setState(() {
-                        currentExercise = exercise;
-                      });
-                      await runExerciseFromTimes(exercise);
-                    }
-                    for (var exercise in warmUpAfter.exerciseList) {
-                      if (!mounted) return;
-                      setState(() {
-                        currentExercise = exercise;
-                      });
-                      await runExerciseFromTime(exercise);
-                    }
-                  }
                   if (!mounted) return;
-                  Navigator.pop(context);
+
+                  if (isCompleted) Navigator.pop(context);
+
+                  if (isRun) {
+                    setState(() {
+                      isPause = !isPause;
+                      iconButtonStart =
+                          isPause ? Icon(Icons.play_arrow) : Icon(Icons.pause);
+                      labelButtonStart =
+                          isPause ? Text('Продолжить') : Text('Пауза');
+                    });
+                  } else {
+                    run();
+                  }
                 },
-                icon: Icon(Icons.play_arrow),
-                label: Text('Начать'),
+                icon: iconButtonStart,
+                label: labelButtonStart,
               ),
             ],
           ),
