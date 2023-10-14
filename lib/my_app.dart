@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'classes/app_data.dart';
 import 'classes/exercise.dart';
@@ -38,9 +36,6 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
   //late Directory dataDir;
   //late File dataFile; // = File('assets/data/data.txt');
   AppData data = AppData([], [], [], []);
-  String srcDir = 'files/sounds';
-  late String tempDirPath;
-  List<String> asetsName = ['/timer_start.mp3', '/timer_end.mp3'];
 
   MyAppState() {
     WidgetsBinding.instance.addObserver(this);
@@ -55,7 +50,7 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
 
   Future<void> loadState() async {
     if (data.isEmpty()) {
-      final jsonData = await rootBundle.loadString('files/data/data.txt');
+      final jsonData = await rootBundle.loadString('assets/data/data.txt');
       if (jsonData.isNotEmpty) {
         Map<String, dynamic> dataMap = jsonDecode(jsonData);
         data = AppData.fromJson(dataMap);
@@ -70,18 +65,6 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
       //     notifyListeners();
       //   }
       // }
-    }
-
-    final tempDir = await getTemporaryDirectory();
-    tempDirPath = tempDir.path;
-
-    for (var fileName in asetsName) {
-      File file = File('$tempDirPath$fileName');
-      if (!file.existsSync()) {
-        await file.create(recursive: true);
-      }
-      final fileData = await rootBundle.load('$srcDir$fileName');
-      file.writeAsBytes(fileData.buffer.asUint8List());
     }
   }
 
