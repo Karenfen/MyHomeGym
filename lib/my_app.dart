@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'classes/app_data.dart';
@@ -33,48 +35,59 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
-  //late Directory dataDir;
-  //late File dataFile; // = File('assets/data/data.txt');
   AppData data = AppData([], [], [], []);
+  late String tempDirPath;
 
   MyAppState() {
     WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      saveState();
-    }
+    loadState();
   }
 
   Future<void> loadState() async {
-    if (data.isEmpty()) {
-      final jsonData = await rootBundle.loadString('assets/data/data.txt');
-      if (jsonData.isNotEmpty) {
-        Map<String, dynamic> dataMap = jsonDecode(jsonData);
-        data = AppData.fromJson(dataMap);
-        notifyListeners();
+    try {
+      if (data.isEmpty()) {
+        final tempDir = await getTemporaryDirectory();
+        tempDirPath = tempDir.path;
+        String jsonData = '';
+
+        File file = File('$tempDirPath/data.txt');
+        if (file.existsSync()) {
+          jsonData = file.readAsStringSync();
+        }
+
+        if (jsonData.isEmpty) {
+          jsonData = await rootBundle.loadString('assets/data/data.txt');
+        }
+
+        if (jsonData.isNotEmpty) {
+          Map<String, dynamic> dataMap = jsonDecode(jsonData);
+          data = AppData.fromJson(dataMap);
+
+          notifyListeners();
+        }
       }
-      // dataFile = File('assets/data/data.txt');
-      // if (dataFile.existsSync()) {
-      //   String jsonData = dataFile.readAsStringSync();
-      //   if (jsonData.isNotEmpty) {
-      //     Map<String, dynamic> dataMap = jsonDecode(jsonData);
-      //     data = AppData.fromJson(dataMap);
-      //     notifyListeners();
-      //   }
-      // }
+    } on Exception catch (e) {
+      // обработка исключения
     }
   }
 
-  void saveState() {
-    if (!data.isEmpty()) {
-      String jsonData = jsonEncode(data);
+  Future<void> saveState() async {
+    try {
+      if (!data.isEmpty()) {
+        String jsonData = jsonEncode(data);
 
-      if (jsonData.isNotEmpty) {
-        //dataFile.writeAsString(jsonData);
+        if (jsonData.isNotEmpty) {
+          File file = File('$tempDirPath/data.txt');
+
+          if (!file.existsSync()) {
+            await file.create(recursive: true);
+          }
+
+          file.writeAsString(jsonData);
+        }
       }
+    } on Exception catch (e) {
+      // обработка исключения
     }
   }
 
@@ -82,7 +95,9 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
     if (data.workoutList.length > 1) {
       var first = data.workoutList.removeAt(0);
       data.workoutList.add(first);
+
       notifyListeners();
+      saveState();
     }
   }
 
