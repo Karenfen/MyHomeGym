@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/classes/enums.dart';
 import 'package:flutter_application_1/widjets/exercise_card.dart';
 import 'package:provider/provider.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -30,6 +31,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
   bool isPause = false;
   bool isRun = false;
   bool isCompleted = false;
+  bool isCurrentExerciseCompleted = true;
   List<Exercise> exerciseList = [];
   int currentExerciseIndex = 0;
   Icon iconButtonStart = Icon(Icons.play_arrow_rounded);
@@ -72,13 +74,21 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     finishNotificationPlayer.setReleaseMode(ReleaseMode.stop);
 
     if (exerciseList.isEmpty) {
-      Workout warmUpBefore = appState.data.warmUpBeforeList
-          .firstWhere((element) => true, orElse: () => Workout('', '', []));
-      Workout warmUpAfter = appState.data.warmUpAfterList
-          .firstWhere((element) => true, orElse: () => Workout('', '', []));
+      Workout warmUpBefore = appState.data.workoutList.firstWhere(
+          (element) => (element.exerciseType == widget.workout.exerciseType &&
+              element.workoutType == WorkoutType.warmUp),
+          orElse: () => Workout.empty());
+      Workout warmUpAfter = appState.data.workoutList.firstWhere(
+          (element) => (element.exerciseType == widget.workout.exerciseType &&
+              element.workoutType == WorkoutType.stretching),
+          orElse: () => Workout.empty());
 
       exerciseList = List.from(warmUpBefore.exerciseList);
-      exerciseList.addAll(widget.workout.exerciseList);
+
+      for (var i = 0; i < widget.workout.repetitions; i++) {
+        exerciseList.addAll(widget.workout.exerciseList);
+      }
+
       exerciseList.addAll(warmUpAfter.exerciseList);
 
       currentExercise = exerciseList.first;
@@ -102,6 +112,12 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     }
   }
 
+  Future<void> completedExercise() async {
+    while (!isCompleted) {
+      await Future.delayed(Duration(milliseconds: 500));
+    }
+  }
+
   Future<void> runExercise(Exercise exercise) async {
     //playSound('file_name.wav');  // Звуковое уведомление и одновременно обратный отсчет до начала упражнения
 
@@ -119,7 +135,23 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
       secondsPassed = exercise.repetitions;
     });
 
-    await timerStart();
+    if (exercise.isTimePeriod) {
+      await timerStart();
+    } else {
+      setState(() {
+        isCurrentExerciseCompleted = false;
+        iconButtonStart = Icon(Icons.done_rounded);
+        labelButtonStart = Text('Готово');
+      });
+
+      await completedExercise();
+
+      setState(() {
+        isCurrentExerciseCompleted = true;
+        iconButtonStart = Icon(Icons.pause_rounded);
+        labelButtonStart = Text('Пауза');
+      });
+    }
 
     endNotificationPlayer.resume();
 
@@ -167,7 +199,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.workout.workoutName),
+          title: Text(widget.workout.name),
         ),
         body: Container(
           color: Theme.of(context).colorScheme.primaryContainer,
@@ -198,6 +230,12 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                   if (isCompleted) Navigator.pop(context);
 
                   if (isRun) {
+                    if (!isCurrentExerciseCompleted) {
+                      setState(() {
+                        isCurrentExerciseCompleted = true;
+                      });
+                      return;
+                    }
                     setState(() {
                       isPause = !isPause;
                       iconButtonStart =

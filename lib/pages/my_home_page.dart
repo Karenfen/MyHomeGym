@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../my_app.dart';
 import 'exercise_page.dart';
 import 'general_page.dart';
 import 'statistic_page.dart';
@@ -17,8 +15,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<MyAppState>().loadState();
-
     Widget page;
     switch (stateSelectedIndex) {
       case 0:

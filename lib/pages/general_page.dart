@@ -9,7 +9,7 @@ class GeneralPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var workouts = appState.data.workoutList;
+    var workouts = appState.data.activeWorkoutList;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,

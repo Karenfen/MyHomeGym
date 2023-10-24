@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../pages/exercise_info_page.dart';
+import 'activities.dart';
+import 'enums.dart';
 
 part 'exercise.g.dart';
 
 @JsonSerializable()
-class Exercise {
-  Exercise(this.name, this.repetitions, this.videoId, this.imageUrl, this.info);
-
-  String name;
-  int repetitions;
+class Exercise extends Activities {
+  Exercise(
+      String name,
+      ExerciseType exerciseType,
+      WorkoutType workoutType,
+      int repetitions,
+      this.isTimePeriod,
+      this.videoId,
+      this.imageUrl,
+      this.info)
+      : super(name, exerciseType, workoutType, repetitions);
+  bool isTimePeriod;
   String videoId;
   String imageUrl;
   String info;
@@ -25,4 +34,12 @@ class Exercise {
       builder: (context) => ExerciseInfoPage(exercise: this),
     ));
   }
+
+  factory Exercise.empty() {
+    return Exercise(
+        '', ExerciseType.none, WorkoutType.none, 0, false, '', '', '');
+  }
+
+  @override
+  Future<void> run() async {}
 }

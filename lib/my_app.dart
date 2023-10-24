@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
-  AppData data = AppData([], [], [], []);
+  AppData data = AppData.empty();
   late String tempDirPath;
 
   MyAppState() {
@@ -68,6 +68,7 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
       }
     } on Exception catch (e) {
       // обработка исключения
+      print(e);
     }
   }
 

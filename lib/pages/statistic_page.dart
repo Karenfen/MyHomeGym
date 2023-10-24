@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../my_app.dart';
 
 class StatisticPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //var appState = context.watch<MyAppState>();
-    //appState.loadState();
+    var appState = context.watch<MyAppState>();
 
     return ListView(
       scrollDirection: Axis.vertical,

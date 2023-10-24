@@ -12,10 +12,6 @@ class WorkoutPage extends StatelessWidget {
     return ListView(
       scrollDirection: Axis.vertical,
       children: [
-        for (var item in appState.data.warmUpBeforeList)
-          WorkoutCard(workout: item),
-        for (var item in appState.data.warmUpAfterList)
-          WorkoutCard(workout: item),
         for (var item in appState.data.workoutList) WorkoutCard(workout: item),
       ],
     );

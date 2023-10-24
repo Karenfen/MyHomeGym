@@ -37,7 +37,10 @@ class _ExerciseInfoPageState extends State<ExerciseInfoPage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final headerStyle = theme.textTheme.headlineLarge!.copyWith(
+    final nameStyle = theme.textTheme.headlineLarge!.copyWith(
+      color: theme.colorScheme.onPrimary,
+    );
+    final typeStyle = theme.textTheme.headlineSmall!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
 
@@ -52,12 +55,30 @@ class _ExerciseInfoPageState extends State<ExerciseInfoPage> {
             Card(
               color: theme.colorScheme.primary,
               shadowColor: theme.shadowColor,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  widget.exercise.name,
-                  style: headerStyle,
-                ),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.exercise.name,
+                      style: nameStyle,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.exercise.getExerciseTypeAsString(),
+                      style: typeStyle,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.exercise.getWorkoutTypeAsString(),
+                      style: typeStyle,
+                    ),
+                  ),
+                ],
               ),
             ),
 

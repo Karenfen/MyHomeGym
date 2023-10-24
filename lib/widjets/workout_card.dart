@@ -28,11 +28,15 @@ class WorkoutCard extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              workout.workoutName,
+              workout.name,
               style: headerStyle,
             ),
             Text(
-              workout.workoutType,
+              workout.getWorkoutTypeAsString(),
+              style: textStyle,
+            ),
+            Text(
+              workout.getExerciseTypeAsString(),
               style: textStyle,
             ),
             DropdownButton(

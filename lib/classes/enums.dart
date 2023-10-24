@@ -1,13 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum ExerciseType {
-  @JsonValue('time')
-  time,
-  @JsonValue('replays')
-  replays
-}
-
-enum WorkoutType {
   @JsonValue('all')
   all,
   @JsonValue('top')
@@ -18,11 +11,24 @@ enum WorkoutType {
   none
 }
 
+enum WorkoutType {
+  @JsonValue('warmUp')
+  warmUp,
+  @JsonValue('strength')
+  strength,
+  @JsonValue('stretching')
+  stretching,
+  @JsonValue('none')
+  none
+}
+
 enum Level {
   @JsonValue('easy')
   easy,
   @JsonValue('normal')
   normal,
   @JsonValue('hard')
-  hard
+  hard,
+  @JsonValue('none')
+  none
 }

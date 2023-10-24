@@ -7,13 +7,11 @@ part of 'app_data.dart';
 // **************************************************************************
 
 AppData _$AppDataFromJson(Map<String, dynamic> json) => AppData(
-      (json['warmUpBeforeList'] as List<dynamic>)
-          .map((e) => Workout.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      (json['warmUpAfterList'] as List<dynamic>)
-          .map((e) => Workout.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      MyInfo.fromJson(json['info'] as Map<String, dynamic>),
       (json['workoutList'] as List<dynamic>)
+          .map((e) => Workout.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['activeWorkoutList'] as List<dynamic>)
           .map((e) => Workout.fromJson(e as Map<String, dynamic>))
           .toList(),
       (json['exerciseList'] as List<dynamic>)
@@ -22,8 +20,8 @@ AppData _$AppDataFromJson(Map<String, dynamic> json) => AppData(
     );
 
 Map<String, dynamic> _$AppDataToJson(AppData instance) => <String, dynamic>{
-      'warmUpBeforeList': instance.warmUpBeforeList,
-      'warmUpAfterList': instance.warmUpAfterList,
+      'info': instance.info,
       'workoutList': instance.workoutList,
+      'activeWorkoutList': instance.activeWorkoutList,
       'exerciseList': instance.exerciseList,
     };

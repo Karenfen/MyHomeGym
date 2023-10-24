@@ -1,184 +1,401 @@
 {
-    "warmUpBeforeList": [
+    "info": {
+        "name": "Илья",
+        "age": 31,
+        "weightList": [
+            66.0,
+            68.0
+        ],
+        "level": "normal"
+    },
+    "workoutList": [
         {
-            "workoutName": "Разминка",
-            "workoutType": "Перед тренировкой",
+            "name": "Разминка",
+            "exerciseType": "all",
+            "workoutType": "warmUp",
+            "repetitions": 1,
             "exerciseList": [
                 {
                     "name": "Махи руками с шагами в стороны",
+                    "exerciseType": "all",
+                    "workoutType": "warmUp",
                     "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Прыжки без скакалки",
+                    "exerciseType": "all",
+                    "workoutType": "warmUp",
                     "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Наклоны вперёд со скручиванием",
+                    "exerciseType": "all",
+                    "workoutType": "warmUp",
                     "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Бег, колени вверх",
+                    "exerciseType": "all",
+                    "workoutType": "warmUp",
                     "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Приводящая мышца - стоя",
+                    "exerciseType": "all",
+                    "workoutType": "warmUp",
                     "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 }
             ]
-        }
-    ],
-    "warmUpAfterList": [
+        },
         {
-            "workoutName": "Разтяжка",
-            "workoutType": "После тренировки",
+            "name": "Разтяжка",
+            "exerciseType": "all",
+            "workoutType": "stretching",
+            "repetitions": 1,
             "exerciseList": [
                 {
                     "name": "Разтяжка \"кобра\"",
-                    "repetitions": 20,
+                    "exerciseType": "all",
+                    "workoutType": "stretching",
+                    "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Грудь",
-                    "repetitions": 20,
+                    "exerciseType": "top",
+                    "workoutType": "stretching",
+                    "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Скручивания в пояснице лёжа на полу (влево)",
-                    "repetitions": 20,
+                    "exerciseType": "all",
+                    "workoutType": "stretching",
+                    "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Скручивания в пояснице лёжа на полу (вправо)",
-                    "repetitions": 20,
+                    "exerciseType": "all",
+                    "workoutType": "stretching",
+                    "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Поза ребёнка",
+                    "exerciseType": "all",
+                    "workoutType": "stretching",
                     "repetitions": 30,
+                    "isTimePeriod": true,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 }
             ]
-        }
-    ],
-    "workoutList": [
+        },
         {
-            "workoutName": "Тренировка 1",
-            "workoutType": "На всё тело",
+            "name": "Тренировка в среду",
+            "exerciseType": "all",
+            "workoutType": "strength",
+            "repetitions": 3,
             "exerciseList": [
                 {
                     "name": "Отжимания алмазные",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
                     "repetitions": 12,
+                    "isTimePeriod": false,
                     "videoId": "UCmqw3kKZ38",
                     "imageUrl": "assets/images/image-1.jpeg",
                     "info": "Алмазные отжимания (или отжимания в форме алмаза) - это вариация отжиманий, которая акцентирует нагрузку на различных мышечных группах, включая грудные мышцы, плечи и трiceps. Чтобы выполнять алмазные отжимания правильно, следуйте этим шагам:\nНачните с положения планки. Лягте лицом вниз на пол, вытяните ноги и опустите грудь вниз. Ваши ладони должны быть расположены ближе км рукам, чем при обычных отжиманиях, и смотреть друг на друга так, чтобы пальцы образовывали форму алмаза (ромба) под вашей грудью. Пальцы и большие пальцы должны касаться друг друга.\nСохраняйте тело в прямой линии от головы до пят, активируйте мышцы кора и брюшных мышц, чтобы удерживать стабильную позу.\nОпуститесь вниз, сгибая локти, и старайтесь при этом держать их ближе к телу. Грудь должна приближаться к земле, но не касаться её.\nКогда вы достигнете нижней точки движения, приложите усилия и поднимитесь обратно в исходное положение, выпрямляя руки."
                 },
                 {
                     "name": "Подтягивания прямым хватом",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
                     "repetitions": 12,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Болгарские сплит-приседания",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
                     "repetitions": 20,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Скандинавские скручивания",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
                     "repetitions": 20,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Скручивания на пресс",
-                    "repetitions": 25,
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
+                    "repetitions": 20,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Упражнение \"супермен\"",
-                    "repetitions": 25,
+                    "exerciseType": "top",
+                    "workoutType": "strength",
+                    "repetitions": 20,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 }
             ]
         },
         {
-            "workoutName": "Тренировка 2",
-            "workoutType": "На всё тело",
+            "name": "Тренировка в воскресенье",
+            "exerciseType": "all",
+            "workoutType": "strength",
+            "repetitions": 3,
             "exerciseList": [
                 {
                     "name": "Отжимания горкой",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
                     "repetitions": 12,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Подтягивания обратным хватом",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
                     "repetitions": 12,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Зашагивание на возвышение",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
                     "repetitions": 20,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Сгибание ног на бицепс бедра, лёжа на спине",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
                     "repetitions": 20,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Подъём ног к турнику в висе",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
                     "repetitions": 25,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
                 },
                 {
                     "name": "Упражнение \"пловец\"",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
                     "repetitions": 25,
+                    "isTimePeriod": false,
                     "videoId": "",
                     "imageUrl": "",
-                    "info": "Подробная информация об упражнении."
+                    "info": ""
+                }
+            ]
+        }
+    ],
+    "activeWorkoutList": [
+        {
+            "name": "Тренировка в среду",
+            "exerciseType": "all",
+            "workoutType": "strength",
+            "repetitions": 3,
+            "exerciseList": [
+                {
+                    "name": "Отжимания алмазные",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
+                    "repetitions": 12,
+                    "isTimePeriod": false,
+                    "videoId": "UCmqw3kKZ38",
+                    "imageUrl": "assets/images/image-1.jpeg",
+                    "info": "Алмазные отжимания (или отжимания в форме алмаза) - это вариация отжиманий, которая акцентирует нагрузку на различных мышечных группах, включая грудные мышцы, плечи и трiceps. Чтобы выполнять алмазные отжимания правильно, следуйте этим шагам:\nНачните с положения планки. Лягте лицом вниз на пол, вытяните ноги и опустите грудь вниз. Ваши ладони должны быть расположены ближе км рукам, чем при обычных отжиманиях, и смотреть друг на друга так, чтобы пальцы образовывали форму алмаза (ромба) под вашей грудью. Пальцы и большие пальцы должны касаться друг друга.\nСохраняйте тело в прямой линии от головы до пят, активируйте мышцы кора и брюшных мышц, чтобы удерживать стабильную позу.\nОпуститесь вниз, сгибая локти, и старайтесь при этом держать их ближе к телу. Грудь должна приближаться к земле, но не касаться её.\nКогда вы достигнете нижней точки движения, приложите усилия и поднимитесь обратно в исходное положение, выпрямляя руки."
+                },
+                {
+                    "name": "Подтягивания прямым хватом",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
+                    "repetitions": 12,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Болгарские сплит-приседания",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
+                    "repetitions": 20,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Скандинавские скручивания",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
+                    "repetitions": 20,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Скручивания на пресс",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
+                    "repetitions": 20,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Упражнение \"супермен\"",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
+                    "repetitions": 20,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                }
+            ]
+        },
+        {
+            "name": "Тренировка в воскресенье",
+            "exerciseType": "all",
+            "workoutType": "strength",
+            "repetitions": 3,
+            "exerciseList": [
+                {
+                    "name": "Отжимания горкой",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
+                    "repetitions": 12,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Подтягивания обратным хватом",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
+                    "repetitions": 12,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Зашагивание на возвышение",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
+                    "repetitions": 20,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Сгибание ног на бицепс бедра, лёжа на спине",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
+                    "repetitions": 20,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Подъём ног к турнику в висе",
+                    "exerciseType": "lower",
+                    "workoutType": "strength",
+                    "repetitions": 25,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
+                },
+                {
+                    "name": "Упражнение \"пловец\"",
+                    "exerciseType": "top",
+                    "workoutType": "strength",
+                    "repetitions": 25,
+                    "isTimePeriod": false,
+                    "videoId": "",
+                    "imageUrl": "",
+                    "info": ""
                 }
             ]
         }
@@ -186,136 +403,223 @@
     "exerciseList": [
         {
             "name": "Отжимания алмазные",
+            "exerciseType": "top",
+            "workoutType": "strength",
             "repetitions": 12,
+            "isTimePeriod": false,
             "videoId": "UCmqw3kKZ38",
             "imageUrl": "assets/images/image-1.jpeg",
             "info": "Алмазные отжимания (или отжимания в форме алмаза) - это вариация отжиманий, которая акцентирует нагрузку на различных мышечных группах, включая грудные мышцы, плечи и трiceps. Чтобы выполнять алмазные отжимания правильно, следуйте этим шагам:\nНачните с положения планки. Лягте лицом вниз на пол, вытяните ноги и опустите грудь вниз. Ваши ладони должны быть расположены ближе км рукам, чем при обычных отжиманиях, и смотреть друг на друга так, чтобы пальцы образовывали форму алмаза (ромба) под вашей грудью. Пальцы и большие пальцы должны касаться друг друга.\nСохраняйте тело в прямой линии от головы до пят, активируйте мышцы кора и брюшных мышц, чтобы удерживать стабильную позу.\nОпуститесь вниз, сгибая локти, и старайтесь при этом держать их ближе к телу. Грудь должна приближаться к земле, но не касаться её.\nКогда вы достигнете нижней точки движения, приложите усилия и поднимитесь обратно в исходное положение, выпрямляя руки."
         },
         {
-            "name": "Отжимания горкой",
-            "repetitions": 12,
-            "videoId": "",
-            "imageUrl": "",
-            "info": "Подробная информация об упражнении."
-        },
-        {
             "name": "Подтягивания прямым хватом",
+            "exerciseType": "top",
+            "workoutType": "strength",
             "repetitions": 12,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
-        },
-        {
-            "name": "Подтягивания обратным хватом",
-            "repetitions": 12,
-            "videoId": "",
-            "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Болгарские сплит-приседания",
+            "exerciseType": "lower",
+            "workoutType": "strength",
             "repetitions": 20,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Скандинавские скручивания",
+            "exerciseType": "lower",
+            "workoutType": "strength",
             "repetitions": 20,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Скручивания на пресс",
-            "repetitions": 25,
+            "exerciseType": "lower",
+            "workoutType": "strength",
+            "repetitions": 20,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Упражнение \"супермен\"",
-            "repetitions": 25,
+            "exerciseType": "top",
+            "workoutType": "strength",
+            "repetitions": 20,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
+        },
+        {
+            "name": "Отжимания горкой",
+            "exerciseType": "top",
+            "workoutType": "strength",
+            "repetitions": 12,
+            "isTimePeriod": false,
+            "videoId": "",
+            "imageUrl": "",
+            "info": ""
+        },
+        {
+            "name": "Подтягивания обратным хватом",
+            "exerciseType": "top",
+            "workoutType": "strength",
+            "repetitions": 12,
+            "isTimePeriod": false,
+            "videoId": "",
+            "imageUrl": "",
+            "info": ""
         },
         {
             "name": "Зашагивание на возвышение",
+            "exerciseType": "lower",
+            "workoutType": "strength",
             "repetitions": 20,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
-            "name": "Разтяжка \"кобра\"",
+            "name": "Сгибание ног на бицепс бедра, лёжа на спине",
+            "exerciseType": "lower",
+            "workoutType": "strength",
             "repetitions": 20,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
-            "name": "Грудь",
-            "repetitions": 20,
+            "name": "Подъём ног к турнику в висе",
+            "exerciseType": "lower",
+            "workoutType": "strength",
+            "repetitions": 25,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
-            "name": "Скручивания в пояснице лёжа на полу (влево)",
-            "repetitions": 20,
+            "name": "Упражнение \"пловец\"",
+            "exerciseType": "top",
+            "workoutType": "strength",
+            "repetitions": 25,
+            "isTimePeriod": false,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
-        },
-        {
-            "name": "Скручивания в пояснице лёжа на полу (вправо)",
-            "repetitions": 20,
-            "videoId": "",
-            "imageUrl": "",
-            "info": "Подробная информация об упражнении."
-        },
-        {
-            "name": "Поза ребёнка",
-            "repetitions": 30,
-            "videoId": "",
-            "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Махи руками с шагами в стороны",
+            "exerciseType": "all",
+            "workoutType": "warmUp",
             "repetitions": 30,
+            "isTimePeriod": true,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Прыжки без скакалки",
+            "exerciseType": "all",
+            "workoutType": "warmUp",
             "repetitions": 30,
+            "isTimePeriod": true,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Наклоны вперёд со скручиванием",
+            "exerciseType": "all",
+            "workoutType": "warmUp",
             "repetitions": 30,
+            "isTimePeriod": true,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Бег, колени вверх",
+            "exerciseType": "all",
+            "workoutType": "warmUp",
             "repetitions": 30,
+            "isTimePeriod": true,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
         },
         {
             "name": "Приводящая мышца - стоя",
+            "exerciseType": "all",
+            "workoutType": "warmUp",
             "repetitions": 30,
+            "isTimePeriod": true,
             "videoId": "",
             "imageUrl": "",
-            "info": "Подробная информация об упражнении."
+            "info": ""
+        },
+        {
+            "name": "Разтяжка \"кобра\"",
+            "exerciseType": "all",
+            "workoutType": "stretching",
+            "repetitions": 30,
+            "isTimePeriod": true,
+            "videoId": "",
+            "imageUrl": "",
+            "info": ""
+        },
+        {
+            "name": "Грудь",
+            "exerciseType": "top",
+            "workoutType": "stretching",
+            "repetitions": 30,
+            "isTimePeriod": true,
+            "videoId": "",
+            "imageUrl": "",
+            "info": ""
+        },
+        {
+            "name": "Скручивания в пояснице лёжа на полу (влево)",
+            "exerciseType": "all",
+            "workoutType": "stretching",
+            "repetitions": 30,
+            "isTimePeriod": true,
+            "videoId": "",
+            "imageUrl": "",
+            "info": ""
+        },
+        {
+            "name": "Скручивания в пояснице лёжа на полу (вправо)",
+            "exerciseType": "all",
+            "workoutType": "stretching",
+            "repetitions": 30,
+            "isTimePeriod": true,
+            "videoId": "",
+            "imageUrl": "",
+            "info": ""
+        },
+        {
+            "name": "Поза ребёнка",
+            "exerciseType": "all",
+            "workoutType": "stretching",
+            "repetitions": 30,
+            "isTimePeriod": true,
+            "videoId": "",
+            "imageUrl": "",
+            "info": ""
         }
     ]
 }
