@@ -1,14 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/classes/enums.dart';
 import 'package:flutter_application_1/widjets/exercise_card.dart';
-import 'package:provider/provider.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 import '../classes/exercise.dart';
 import '../classes/workout.dart';
-import '../my_app.dart';
 import '../widjets/workout_card.dart';
 
 class WorkoutStartPage extends StatefulWidget {
@@ -21,50 +18,25 @@ class WorkoutStartPage extends StatefulWidget {
 }
 
 class _WorkoutStartPageState extends State<WorkoutStartPage> {
-  Timer? timer;
-  int secondsPassed = 0;
-  late Exercise currentExercise;
+  late Workout workout;
+  int secondsLeft = 0;
+  Exercise currentExercise = Exercise.empty();
   AudioPlayer startNotificationPlayer = AudioPlayer();
   AudioPlayer endNotificationPlayer = AudioPlayer();
   AudioPlayer finishNotificationPlayer = AudioPlayer();
-  late MyAppState appState;
   bool isPause = false;
   bool isRun = false;
   bool isCompleted = false;
-  bool isCurrentExerciseCompleted = true;
-  List<Exercise> exerciseList = [];
-  int currentExerciseIndex = 0;
+  bool isCurrentExerciseWaitingForComplete = false;
   Icon iconButtonStart = Icon(Icons.play_arrow_rounded);
   Text labelButtonStart = Text('Начать');
   late String audioName;
-
-  Future<void> timerStart() async {
-    print('timer start');
-    timer?.cancel();
-    Completer<void> timerCompleter = Completer<void>();
-
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      if (!isPause) {
-        setState(() {
-          if (secondsPassed > 0) secondsPassed--;
-        });
-        if (secondsPassed <= 0) {
-          timer.cancel();
-          if (!timerCompleter.isCompleted) timerCompleter.complete();
-        }
-      }
-    });
-
-    await timerCompleter.future;
-
-    return Future<void>.value();
-  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    appState = context.watch<MyAppState>();
+    workout = widget.workout.copy();
 
     startNotificationPlayer.setSourceAsset('sounds/start.wav');
     startNotificationPlayer.setReleaseMode(ReleaseMode.stop);
@@ -73,26 +45,55 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     finishNotificationPlayer.setSourceAsset('sounds/finish.wav');
     finishNotificationPlayer.setReleaseMode(ReleaseMode.stop);
 
-    if (exerciseList.isEmpty) {
-      Workout warmUpBefore = appState.data.workoutList.firstWhere(
-          (element) => (element.exerciseType == widget.workout.exerciseType &&
-              element.workoutType == WorkoutType.warmUp),
-          orElse: () => Workout.empty());
-      Workout warmUpAfter = appState.data.workoutList.firstWhere(
-          (element) => (element.exerciseType == widget.workout.exerciseType &&
-              element.workoutType == WorkoutType.stretching),
-          orElse: () => Workout.empty());
+    workout.onExerciseBegin = (Exercise newExercise) {
+      setState(() {
+        currentExercise = newExercise;
+      });
 
-      exerciseList = List.from(warmUpBefore.exerciseList);
+      currentExercise.onTick = (seconds) {
+        setState(() {
+          secondsLeft = seconds;
+        });
+      };
 
-      for (var i = 0; i < widget.workout.repetitions; i++) {
-        exerciseList.addAll(widget.workout.exerciseList);
-      }
+      currentExercise.onBegine = (seconds) {
+        setState(() {
+          secondsLeft = seconds;
+        });
 
-      exerciseList.addAll(warmUpAfter.exerciseList);
+        startNotificationPlayer.resume();
+      };
 
-      currentExercise = exerciseList.first;
-    }
+      currentExercise.onDone = () {
+        endNotificationPlayer.resume();
+      };
+
+      currentExercise.onGetReady = (seconds) {
+        setState(() {
+          secondsLeft = seconds;
+        });
+
+        /// уведомление "приготовиться"
+      };
+      currentExercise.onWaitingForComplete = () {
+        setState(() {
+          isCurrentExerciseWaitingForComplete = true;
+          iconButtonStart = Icon(Icons.done_rounded);
+          labelButtonStart = Text('Готово');
+        });
+      };
+
+      currentExercise.onRelax = (seconds) {
+        setState(() {
+          secondsLeft = seconds;
+        });
+
+        // уведомление "отдохните"
+      };
+    };
+
+    workout.initExerciseList();
+    currentExercise = workout.exerciseList.first;
   }
 
   @override
@@ -100,7 +101,6 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     startNotificationPlayer.dispose();
     endNotificationPlayer.dispose();
     finishNotificationPlayer.dispose();
-    timer?.cancel();
 
     super.dispose();
   }
@@ -112,54 +112,6 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
     }
   }
 
-  Future<void> completedExercise() async {
-    while (!isCompleted) {
-      await Future.delayed(Duration(milliseconds: 500));
-    }
-  }
-
-  Future<void> runExercise(Exercise exercise) async {
-    //playSound('file_name.wav');  // Звуковое уведомление и одновременно обратный отсчет до начала упражнения
-
-    setState(() {
-      secondsPassed = 5;
-    });
-
-    await timerStart();
-
-    await Future.delayed(Duration(seconds: 1));
-
-    startNotificationPlayer.resume();
-
-    setState(() {
-      secondsPassed = exercise.repetitions;
-    });
-
-    if (exercise.isTimePeriod) {
-      await timerStart();
-    } else {
-      setState(() {
-        isCurrentExerciseCompleted = false;
-        iconButtonStart = Icon(Icons.done_rounded);
-        labelButtonStart = Text('Готово');
-      });
-
-      await completedExercise();
-
-      setState(() {
-        isCurrentExerciseCompleted = true;
-        iconButtonStart = Icon(Icons.pause_rounded);
-        labelButtonStart = Text('Пауза');
-      });
-    }
-
-    endNotificationPlayer.resume();
-
-    await Future.delayed(Duration(seconds: 1));
-
-    return Future<void>.value();
-  }
-
   Future<void> run() async {
     setState(() {
       isRun = true;
@@ -167,16 +119,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
       labelButtonStart = Text('Пауза');
     });
 
-    if (exerciseList.isNotEmpty) {
-      for (var exercise in exerciseList) {
-        if (!mounted) return;
-        setState(() {
-          currentExercise = exercise;
-        });
-
-        await runExercise(exercise);
-      }
-    }
+    await workout.run();
 
     setState(() {
       isRun = false;
@@ -199,13 +142,13 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.workout.name),
+          title: Text(workout.name),
         ),
         body: Container(
           color: Theme.of(context).colorScheme.primaryContainer,
           child: Column(
             children: [
-              Center(child: WorkoutCard(workout: widget.workout)),
+              Center(child: WorkoutCard(workout: workout)),
               Text('Следующее упражнение:'),
               ExerciseCard(exercise: currentExercise),
               Expanded(
@@ -217,38 +160,52 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                 shadowColor: theme.shadowColor,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text('$secondsPassed', style: textStyle),
+                  child: Text('$secondsLeft', style: textStyle),
                 ),
               ),
               Expanded(
                 child: SizedBox(),
               ),
-              ElevatedButton.icon(
-                onPressed: () async {
-                  if (!mounted) return;
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      if (!mounted) return;
 
-                  if (isCompleted) Navigator.pop(context);
+                      if (isCompleted) Navigator.pop(context);
 
-                  if (isRun) {
-                    if (!isCurrentExerciseCompleted) {
-                      setState(() {
-                        isCurrentExerciseCompleted = true;
-                      });
-                      return;
-                    }
-                    setState(() {
-                      isPause = !isPause;
-                      iconButtonStart =
-                          isPause ? Icon(Icons.play_arrow) : Icon(Icons.pause);
-                      labelButtonStart =
-                          isPause ? Text('Продолжить') : Text('Пауза');
-                    });
-                  } else {
-                    run();
-                  }
-                },
-                icon: iconButtonStart,
-                label: labelButtonStart,
+                      if (isRun) {
+                        if (isCurrentExerciseWaitingForComplete) {
+                          setState(() {
+                            isCurrentExerciseWaitingForComplete = false;
+                          });
+                          currentExercise.exerciseCompleted();
+                          setState(() {
+                            isCurrentExerciseWaitingForComplete = false;
+                            iconButtonStart = Icon(Icons.pause_rounded);
+                            labelButtonStart = Text('Пауза');
+                          });
+                          return;
+                        }
+                        setState(() {
+                          isPause = !isPause;
+                          iconButtonStart = isPause
+                              ? Icon(Icons.play_arrow)
+                              : Icon(Icons.pause);
+                          labelButtonStart =
+                              isPause ? Text('Продолжить') : Text('Пауза');
+                          if (isPause) {
+                          } else {
+                            workout.resume();
+                          }
+                        });
+                      } else {
+                        run();
+                      }
+                    },
+                    icon: iconButtonStart,
+                    label: labelButtonStart,
               ),
             ],
           ),
