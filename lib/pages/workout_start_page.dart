@@ -196,6 +196,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                           labelButtonStart =
                               isPause ? Text('Продолжить') : Text('Пауза');
                           if (isPause) {
+                            workout.pause();
                           } else {
                             workout.resume();
                           }
@@ -206,6 +207,19 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                     },
                     icon: iconButtonStart,
                     label: labelButtonStart,
+                  ),
+                  SizedBox(width: 16),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      if (isRun) {
+                        if (isPause) isPause = false;
+                        workout.skip();
+                      }
+                    },
+                    icon: Icon(Icons.skip_next_rounded),
+                    label: Text('Пропустить'),
+                  )
+                ],
               ),
             ],
           ),
