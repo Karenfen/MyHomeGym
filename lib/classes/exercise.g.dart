@@ -7,14 +7,16 @@ part of 'exercise.dart';
 // **************************************************************************
 
 Exercise _$ExerciseFromJson(Map<String, dynamic> json) => Exercise(
-      json['name'] as String,
-      $enumDecode(_$ExerciseTypeEnumMap, json['exerciseType']),
-      $enumDecode(_$WorkoutTypeEnumMap, json['workoutType']),
-      json['repetitions'] as int,
-      json['isTimePeriod'] as bool,
-      json['videoId'] as String,
-      json['imageUrl'] as String,
-      json['info'] as String,
+      name: json['name'] as String,
+      exerciseType: $enumDecode(_$ExerciseTypeEnumMap, json['exerciseType']),
+      workoutType: $enumDecode(_$WorkoutTypeEnumMap, json['workoutType']),
+      repetitions: json['repetitions'] as int,
+      isTimePeriod: json['isTimePeriod'] as bool? ?? false,
+      preparationSeconds: json['preparationSeconds'] as int? ?? 5,
+      relaxSeconds: json['relaxSeconds'] as int? ?? 0,
+      videoId: json['videoId'] as String? ?? '',
+      imageUrl: json['imageUrl'] as String? ?? '',
+      info: json['info'] as String? ?? '',
     );
 
 Map<String, dynamic> _$ExerciseToJson(Exercise instance) => <String, dynamic>{
@@ -23,6 +25,8 @@ Map<String, dynamic> _$ExerciseToJson(Exercise instance) => <String, dynamic>{
       'workoutType': _$WorkoutTypeEnumMap[instance.workoutType]!,
       'repetitions': instance.repetitions,
       'isTimePeriod': instance.isTimePeriod,
+      'preparationSeconds': instance.preparationSeconds,
+      'relaxSeconds': instance.relaxSeconds,
       'videoId': instance.videoId,
       'imageUrl': instance.imageUrl,
       'info': instance.info,

@@ -50,13 +50,13 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
         tempDirPath = tempDir.path;
         String jsonData = '';
 
-        File file = File('$tempDirPath/data.txt');
+        File file = File('$tempDirPath/data.json');
         if (file.existsSync()) {
           jsonData = file.readAsStringSync();
         }
 
         if (jsonData.isEmpty) {
-          jsonData = await rootBundle.loadString('assets/data/data.txt');
+          jsonData = await rootBundle.loadString('assets/data/data.json');
         }
 
         if (jsonData.isNotEmpty) {
@@ -78,7 +78,7 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
         String jsonData = jsonEncode(data);
 
         if (jsonData.isNotEmpty) {
-          File file = File('$tempDirPath/data.txt');
+          File file = File('$tempDirPath/data.json');
 
           if (!file.existsSync()) {
             await file.create(recursive: true);
@@ -93,9 +93,9 @@ class MyAppState extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   void skipWorkout() {
-    if (data.workoutList.length > 1) {
-      var first = data.workoutList.removeAt(0);
-      data.workoutList.add(first);
+    if (data.activeWorkoutList.length > 1) {
+      var first = data.activeWorkoutList.removeAt(0);
+      data.activeWorkoutList.add(first);
 
       notifyListeners();
       saveState();
