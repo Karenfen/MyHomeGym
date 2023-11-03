@@ -51,6 +51,14 @@ class WorkoutCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (workout.warmUpBefore != null)
+                  DropdownMenuItem(
+                    child: Text(
+                      workout.warmUpBefore!.name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
                 for (var item in workout.exerciseList)
                   DropdownMenuItem<Exercise>(
                     value: item,
@@ -73,7 +81,15 @@ class WorkoutCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                if (workout.warmUpAfter != null)
+                  DropdownMenuItem(
+                    child: Text(
+                      workout.warmUpAfter!.name,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ),
               ],
               value: header,
               onChanged: (item) {
