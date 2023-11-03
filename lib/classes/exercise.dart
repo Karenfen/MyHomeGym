@@ -164,4 +164,10 @@ class Exercise extends Activities {
     isPause = false;
     isNotCompleted = false;
   }
+
+  void reset() {
+    isCanceled = false;
+    isPause = false;
+    isNotCompleted = false;
+  }
 }

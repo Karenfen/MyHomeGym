@@ -88,7 +88,9 @@ class Workout extends Activities {
       try {
         currentExercise = exerciseList[currentIndex];
         onExerciseBegin?.call(currentExercise);
+
         await currentExercise.run();
+        currentExercise.reset();
       } on Exception catch (e) {
         break;
       }

@@ -59,6 +59,9 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
       currentExercise.onBegine = (seconds) {
         setState(() {
           secondsLeft = seconds;
+          isPause = false;
+          iconButtonStart = Icon(Icons.pause_rounded);
+          labelButtonStart = Text('Пауза');
         });
 
         startNotificationPlayer.resume();
@@ -166,9 +169,22 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
               Expanded(
                 child: SizedBox(),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8,
+                runSpacing: 8,
                 children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      if (isRun) {
+                        if (isPause) isPause = false;
+                        workout.previous();
+                      }
+                    },
+                    icon: Icon(Icons.skip_previous_rounded),
+                    label: Text('Пред.'),
+                  ),
+                  SizedBox(width: 16),
                   ElevatedButton.icon(
                     onPressed: () async {
                       if (!mounted) return;
@@ -194,7 +210,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                               ? Icon(Icons.play_arrow)
                               : Icon(Icons.pause);
                           labelButtonStart =
-                              isPause ? Text('Продолжить') : Text('Пауза');
+                              isPause ? Text('Прод.') : Text('Пауза');
                           if (isPause) {
                             workout.pause();
                           } else {
@@ -217,7 +233,7 @@ class _WorkoutStartPageState extends State<WorkoutStartPage> {
                       }
                     },
                     icon: Icon(Icons.skip_next_rounded),
-                    label: Text('Пропустить'),
+                    label: Text('След.'),
                   )
                 ],
               ),
